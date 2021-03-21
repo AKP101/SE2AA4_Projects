@@ -1,0 +1,208 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+
+\newcounter{stepnum}
+
+\title{Assignment 1 Solution}
+\author{Anika Krishna Peer, 400246282, peera1}
+\date{\today}
+
+\begin {document}
+
+\maketitle
+
+This report discusses testing of the \verb|ComplexT| and \verb|TriangleT|
+classes written for Assignment 1. It also discusses testing of the partner's
+version of the two classes. The design restrictions for the assignment
+are critiqued and then various related discussion questions are answered.
+
+\section{Assumptions and Exceptions} \label{AssumptAndExcept}
+For this assignment there were a few main assumptions made in order to prevent errors 
+from arising during the testing period. These assumptions were made on an individual basis,
+meaning each method was allowed assumptions based on its need, in order to produce an 
+error-free output. 
+Below are detailed lists of the assumptions made when writing \verb|complex_adt| and \verb|triangle_adt|.\newline
+
+Starting with \verb|complex_adt|:
+\begin{itemize}
+	\item In the method \verb|get_phi()|, I made the decision to assume that I would
+	never receive an input for a complex number with both the imaginary and real parts 
+	equaling 0. Otherwise, if both the real and imaginary parts of the complex number
+	were 0, the resulting phi would be undefined.
+	\item In the method \verb|recip()|, the same assumption as in \verb|get_phi()| is
+	made. The reason for this is because if both parts (real and imaginary) are 0, there will be an error
+	resulting from dividing by 0. 
+	\item In the method \verb|div()| I again made the assumption that both real and imaginary
+	parts would not be zero. I chose to do so because, of the resulting error from dividing 
+	by zero.
+\end{itemize} 
+\newpage
+Now looking at \verb|triangle_adt|:
+\begin{itemize}
+	\item The main assumption made was that all inputs were greater than 0. This is part
+	of making a possible triangle if not a valid one.
+	\item I also assumed in \verb|tri_type()| and \verb|area()| that the triangle going to be input would be a valid one. Though in a more complex program it would be more prudent to make sure all the methods had valid triangle inputs, these were specifically important because otherwise they would result in errors. 
+
+\end{itemize}
+\section{Test Cases and Rationale} \label{Testing}
+In order to provide a thorough range of test cases, I decided to test every single method
+with at least 2 - 3 test cases. The reason I chose to do this was so that I could use these
+methods in later test cases. Each test case is prefaced with a few lines of creating either
+\verb|TriangleT| or \verb|ComplexT| objects. \newline
+
+Beginning with \verb|complex_adt|:
+\begin{itemize}
+	\item The test cases I selected for most of the getters were random as there were no
+	specific cases that needed to be tested for getters. 
+	\item The test cases for \verb|conj()| were a combination of negative real numbers
+	as well as the value 0.0. I chose these values specifically to see if the program could
+	handle making conjugates of complex numbers with negative or zero real values. 
+	\item For \verb|add()| I used a mix of positive and negative values for both the imaginary
+	and real parts of the complex numbers. this was essential to ensure that my program handled
+	adding negatives properly. As in \verb|conj()|, I was sure to include zero values. 
+	\item It should be noted that this same trend is continued for the rest of the values 
+	used to test the other methods in the program, i.e. I used a mix of positive values, negative values, and zeroes.
+\end{itemize}
+
+
+\noindent Most of the tests for \verb|triangle_adt| are fairly simple due to the fact that more work is done with boolean and integer value. Hence there is less room for
+error margins in these test cases. 
+\begin{itemize}
+	\item Testing \verb|get_sides| was simply a matter of comparing the tuple results. 
+	Without the hinderance of negative and zero values, this was a rather straightforward test and
+	did not require any specific test cases. 
+	\item In order to properly test \verb|equal()|, I made use of two triangles that were of
+	the same size but maintained a different order of edges. This allowed me to check if my method 
+	was properly checking that all sides of the triangle were equal, without being affected
+	by the order. 
+	\item Testing for \verb|perim()| and \verb|area()| forced me to use slightly larger triangles to ensure 
+	that I would still get accurate results despite the size. As such, I used triangles with
+	sizes 98, 99, and 100 to bring some variety in size amongst the test cases. 
+	\item For \verb|is_valid()|, I decided to test two valid triangles and one invalid one. I chose to
+	use differing sizes in the valid triangles in order to ensure my program could check the 
+	validity of triangles no matter their size. 
+	\item In terms of \verb|tri_type()|, I simply picked to test all 4 types of triangles to make sure that my program could identify all the individual types. 
+\end{itemize}
+
+\noindent In terms of the actual comparison of values used to determine if the correct output was 
+received, I used both approximate and equal test cases. 
+For approximate test cases, I rounded outputted values to 3 decimal places and then 
+found the absolute value of the difference between the expected output and the result. This 
+would represent an error calculation. I then picked an arbitrary error 0.00001 which I felt 
+was precise enough for this program, and used it as an upper bound for the calculation. In short, 
+if the error was less than this upper bound, I would consider the expected output and the 
+result approximately equal, otherwise the test case would have failed. I used this on the
+test cases for methods with outputs showing greater amounts of digits after the decimal. 
+Some of those methods are \verb|mult()|, \verb| recip()| and \verb|sqrt()|.
+For equal test cases, I used two types of tests. One was used purely for exactly-equal 
+results, such as boolean outputs or tritypes. These results are non-numerical and as such 
+do not need to be approximated. The other test was for nearly-equal results such as 
+addition or subtraction, where the margin of error is much lower and there is no rounding
+really required. Some of the methods I used this test on are: \verb|conj()| and \verb|add()|.
+
+\section{Results of Testing Partner's Code}
+
+When testing the partner files with my test cases I found that while a lot of the main
+methods like \verb|add()| and \verb|sub()| had been passed with ease, tests for methods like 
+\verb|sqrt()| and \verb|mult()| failed. A lot of the multi-step methods tended to pass
+merely half of the test cases. Upon further inspection, I also took note that the test
+cases that did not pass were significantly different from the expected answers. It was not
+a matter of decimal places but rather I saw completely different numbers from tests to expected
+results. Below I have outlined why I believe there were differences for each method.\newline
+
+\verb|complex_adt|:
+\begin{itemize}
+	\item \verb|mult()|: An incorrect formula was used. 
+	\verb|self.real() * self.y| should be changed 
+	to \verb|num_mult.real() * self.y|. This way
+	the real part of \verb|num_mult| will multiply itself by the imaginary value and complete the multiplication as per the formula from the given Wikipedia article on the specification.
+	\item \verb|div()|: An incorrect formula was used. 
+	It would be prudent to switch the other of the terms in the imaginary part of this method. Since a subtraction is performed, to find the result of dividing two complex numbers, the order of the terms matter.
+	\item \verb|sqrt()|: An incorrect formula was used. 
+	There is a missing part of the formula. There should be a sign function which can attribute
+	positive and negative signs to the output values. 
+\end{itemize}	
+	
+\verb|triangle_adt|:
+\begin{itemize}
+	\item \verb|get_sides()|: For this method, the error was simply outputting an array instead of the expected tuple. 
+	\item \verb|area()|: An incorrect formula was used. 
+	The formula used is supposed to be Heron's formula, which was correctly determined. However, the error is the use of the perimeter over the semi-perimeter.
+
+\end{itemize}
+
+\section{Critique of Given Design Specification}
+
+One of the advantages of the specification is the lack of redundancy. Every method has a purpose and there is very little overlap between the purposes of each method. This is true for both \verb|triangle_adt| and \verb|complex_adt|. Although in terms of use in the real world, this sort of modularity may be impractical because of the shortness of each individual method, it suited the purpose of testing and documentation well. Another advantage was the clarity of the specification. It was very evident what purpose was served by each method as well as the expected
+inputs and outputs. This made for better testing and less ambiguity when doing documentation. 
+In order to improve the design, I would change the specification so that certain methods must make use of the other methods in the program in order to be considered complete. For example,
+when using \verb|mult()| for \verb|complex_adt| one could have reused \verb|add()|. The same could be said about using \verb|mult()| and \verb|recip()| when creating \verb|div()|. Making that explicit in the specification would force one to think what methods have already been created and how that code can be reused, touching upon the concepts we learned in class.
+
+\section{Answers to Questions}
+
+\begin{enumerate}[(a)]
+\item The methods for the classes \verb|ComplexT| which are selectors (getters) are \verb|real()| and \verb|imag()| which simply return the real and imaginary parts of the complex number. The methods \verb|get_r()|, \verb|get_phi()|, \verb|conj()|, \verb|recip()| and \verb|sqrt()| are also getters according to the in-class definition where a getter can calculate a value derived from inspecting a state. As for \verb|TriangleT|, the getter \verb|get_sides()| simply returns all three sides of the triangle. The other getters in this class are \verb|perim()|, \verb|area()|, \verb|is_valid()| and \verb|tri_type()|, which follow the same rules that a getter can calculate a value derived from inspecting a state. There are no mutators (setters) in these classes. 
+\item For \verb|ComplexT| the possible instance variables are \verb|self.r| and \verb|self.phi|. The value \verb|self.r| represents the absolute value of the complex number and \verb|self.phi| represents the phase angle. The reason we can use these state variables for this class is that you can get the real and imaginary values from the r and phi values, and vice versa. As for \verb|TriangleT|, the possible instance variables are \verb|self.sides| which represents all 3 sides of the triangle in the form of tuple, similar to the method \verb|get_sides()|, and \verb|self.x|, \verb|self.y|, \verb|self.z| which represent the three sides of the triangle individually as their own variables. As before, the tuple can be used to find the individual sides and vice versa. In \verb|TriangleT| the order of the sides does not matter and has no impact on the calculations or behaviour of the program. 
+\item In the current context of the class \verb|ComplexT|, it would make sense to make less than and greater than methods. Having these methods allows the user to make quick work of comparisons between different complex numbers. Additionally, the documentation will make sure that there is a standard method in which the complex numbers are compared, so the person using the comparisons will be sure to receive consistent results if they require reusability, which is one of the software qualities.
+\item It is possible that the three integers input into the constructor for TriangleT will not form a geometrically valid triangle. In this case, the class should allow the invalid input. At the start of each method (aside from getters and setters) \verb|is_valid()| should be run. When it inevitably returns false, a message should be output that the input triangle is invalid and cannot be used in this class. The reason this should occur is because aside from \verb|perim()|and \verb|equal()| the other methods in the class are dependent on the validity of the triangle in order to output an answer that is not erronneous. 
+\item If the \verb|TriangleT| class had a state variable for the type of triangle, it could be very beneficial in order to perform calculations for additional methods like finding the angles of each of the vertices. This also removes the need for the enum code because the classification is now done from the state variables. However, it should be noted that using enums is the standard when working with predefined values. Additionally, enums use class syntax, so it is easy to see what the different possiblities are for the types of triangles, and differentiate between all of them. Also, if for some reason, we wanted to assign a numerical value to the types of triangles, that is only possible through enum.  
+\item Performance is defined as an external quality that is based on user requirements. Usability, on the other hand, is a quality achieved only by software that users find easy to use. As noted in lecture 4, "Poor performance affects the usability of a product." This is elaborated on in the textbook in terms of multiple examples. One such example denotes that if a software system is very slow, it can reduce the user's productivity and no longer meet their needs. Therefore, the software product is no longer usable because its poor performance has made it difficult for it to be used by human users.   
+\item There are no situations where it is not necessary to fake the rational design process, because most projects do not proceed in a planned linear fashion. For example, a project could be at the coding stage and a client could suddenly deliver a new requirement for the software. As this would be an unforseen circumstance, an engineer would probably make changes to the requirements and then implement the newly required functionality. Later, it would be necessary to go back to the problem statement, development plan and other steps and adjust them as needed. An important point to remember is that these changes can sometimes be because of updates in softwares used alongside the one being developed. In short, the importance of the rational design process stems from the fact that software requirements are not fully known when starting a project and can change over time. 
+\item Reusability is defined as the ability to take a product and use it to build a new one. Reliability is more about software doing what it is suppossed to do. If a software product is reliable, it can logically be altered and reused. However, a software product that is unreliable is not worth being reused because it does not accomplish its intended purpose, and in the process of trying to reuse it, it could imply the new product will also be unreliable.
+\item When saying programming languages are abstractions built upon hardware, the intended message is that often when using the programming language, one does not need to know what is happening with the inner workings of the hardware in order to have the program work. An example of this could be when a software engineer is trying to improve the speed of one of their computer chips. They do not necessarily need to know how the data and memory will move around the chip as they start to program on it. That is all managed by the programming language itself, which interacts with the hardware in a way that does not provide an open line of visibility to the engineer. This abstraction, however, is very useful because it prevents software engineers from getting lost in the details and confusing themselves with the machine's workings rather than focusing on the programming itself. 
+\end{enumerate}
+Some of the information I used to answer questions and format my report is present at the following links/locations:
+\begin{itemize}
+	\item \url{https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Lectures/L04_SoftwareQualityContd/SoftwareQualityContd.pdf}
+	\item \url{https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/PreviousYears/2020/A1/A1.pdf}
+	\item Fundamentals of Software Engineering: Second Edition
+\end{itemize}
+
+\newpage
+
+\lstset{language=Python, basicstyle=\tiny, breaklines=true, showspaces=false,
+  showstringspaces=false, breakatwhitespace=true}
+%\lstset{language=C,linewidth=.94\textwidth,xleftmargin=1.1cm}
+
+\def\thesection{\Alph{section}}
+
+\section{Code for complex\_adt.py}
+
+\noindent \lstinputlisting{../src/complex_adt.py}
+
+\newpage
+
+\section{Code for triangle\_adt.py}
+
+\noindent \lstinputlisting{../src/triangle_adt.py}
+
+\newpage
+
+\section{Code for test\_driver.py}
+
+\noindent \lstinputlisting{../src/test_driver.py}
+
+\newpage
+
+\section{Code for Partner's complex\_adt.py}
+
+\noindent \lstinputlisting{../partner/complex_adt.py}
+
+\section{Code for Partner's triangle\_adt.py}
+
+\noindent \lstinputlisting{../partner/triangle_adt.py}
+
+\end {document}
