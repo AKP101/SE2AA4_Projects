@@ -1,0 +1,203 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{paralist}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\oddsidemargin 0mm
+\evensidemargin 0mm
+\textwidth 160mm
+\textheight 200mm
+
+\pagestyle {plain}
+\pagenumbering{arabic}
+\newcounter{stepnum}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\title{Assignment 2 Solution}
+\author{Anika Krishna Peer - peera1}
+\date{\today}
+
+\begin {document}
+
+\maketitle
+
+This report discusses the testing phase for \verb|Shape|, \verb|BodyT|, \verb|CircleT|, \verb|TriangleT|, \verb|Scene|, and \verb|Plot| modules for Assignment 2. It also discusses the results of running the same tests on the partner files. The assignment specifications
+are then critiqued and the requested discussion questions are answered.
+
+\section{Testing of the Original Program}
+
+To provide a very thorough range of test cases, I made sure to test for $Value Error$s as well as regular test cases. By testing every single method, I made sure that I had been thorough enough that none of the correctness of the methods could be questioned.\newline
+
+Beginning with \verb|CircleT()|, I made sure to make use of one circle object with a positive x center of mass coordinate and a negative y one. However, had I had more time, I would have written out test cases where both coordinates were positive or negative, as well as test cases where the x coordinate was negative and the y was positive. This may not have mattered as much initially, seeing as the code for these getters was very simple. Nevertheless, it would prove that there was no gap in the getter methods \verb|cm_x()| and \verb|cm_y()|. The mass and radius are not supposed to be $\le 0$, both logically and by the information in the MIS. This means the singular instance of class \verb|CircleT()|, would have worked perfectly well to test the getter method, \verb|mass()|. This same singular instance of class \verb|CircleT()| would also test well for \verb|m_inert()| seeing as it requires both mass and radius and as mentioned previously, these both have the prerequisite of being values $> 0$. Going along a similar vein, I also decided to write test cases for any of the raised \verb|ValueError|. In these test cases I tested both a negative value for mass as well as radius individually. I also tested a boundary test case where the radius was exactly at 0. These, as mentioned in the design specification, were the cases from which a \verb|ValueError| can be raised. I made use of the empty \verb|CircleT| value in order to test for the error in order to assign values to the empty variable and eventually raise the exception. Overall, these cases were thorough enough that they covered all of the exceptions. However, it is important to note that, an additional test case could have been added where I tested a situation where the mass was also a 0 value, just for a more complete set of test cases.\newline
+
+Continuing on from \verb|CircleT()|, we should also consider the test cases for \verb|TriangleT()|. The test cases for \verb|TriangleT()| follow a similar path as those in \verb|TriangleT()|. This means that the tests for \verb|CircleT()| in terms of \verb|cm_x()| and \verb|cm_y()| have the same drawbacks of not considering values in all four quadrants of the Cartesian plane. In this module however, the shape we are specifically concerned with is an equilateral triangle which means the state variable that belonged to radius in \verb|CircleT()|, has had its place taken by a new variable that denotes the side length of the triangle. In terms of \verb|mass()| and \verb|m_inert()|, \verb|TriangleT()| relies on the fact that neither mass nor side-length are allowed $\le 0$. Therefore, the testing of a singular instance of \verb|TriangleT()|, works adequately well as we can assume the behaviour in the two methods should not vary depending on the size of the input. Once again, I wrote test cases for testing the raised \verb|ValueError| in \verb|__init__()|. As such, I tested cases where either mass or side length were $\le 0$. In all cases the expected \verb|ValueError| was raised. \newline
+
+Considering the test cases for \verb|BodyT()|, it was necessary to take into account the fact that the inputs for the class were all sequences. I did not create any test cases specifically with the local functions in mind because those are not the main, important methods to be tested. The majority of the test cases from \verb|BodyT()| rely on the single instance of \verb|BodyT()| that I had initialized with all positive real values, aside from the y values for center of mass. The y values for the center of mass allowed me to test the module's behaviour when facing a boundary case with all zeros. If I had further time, I would have chosen to implement an instance of an empty \verb|BodyT()| object which would allow me to test the module's behaviour on yet another edge case. In terms of testing for \verb|ValueError|, I made sure that lists of different sizes  were considered. An important part of the \verb|__init__()| initialization, is that the lengths of all the lists must be the same. Additionally, the values in the list of masses cannot be $\le 0$. The latter was tested by my final test case that raises a \verb|ValueError| because the values for mass are all zero. This could have alternatively been shown by having one singular zero value because none of the masses in the list should have been $\le 0$ .\newline
+
+Finally, for \verb|Scene()| the testing became a bit more complex. I defined a few functions in the test cases, they were: \verb|Fx()|, \verb|Fy()|, \verb|FxNewSet()| and \verb|FyNewSet()|. These proved useful as I was inputting \verb|t| values in order to find the approximate outputs for objects with varied masses undergoing different values for gravity. In most of the cases I tested, the \verb|t| value had no important impact on the final output of the function. As such, if I were to work with this module again, I would ensure to pay close attention to those functions and implement them so that the \verb|t| values had an impact on the outputs. In the process of testing \verb|Scene()|, I started with testing the getters and setters. As there were no values that raised any instances of \verb|ValueError|, I tested a few randomized inputs with negative, zero and positive values in order to check the border cases. Specifically testing the setter methods was a rather unique part to the assignment. My logic for the testing was that I should first check the values in the getter methods, then in the setter methods. From there, I could use the values from the getter methods to ensure that the setter methods had properly set values. In terms of testing \verb|sim()|, I was able to use the output of the plotted graphs in order to determine that I had performed the correct implementation. Since all my outputs matched the expected ones when graphing, I knew my values were correct. I did not test \verb|__ode()| as it was a local function that would not require testing.\newline 
+
+If I were to have redone the test cases from scratch, I would likely have attempted to test the local functions regardless of the fact that it was not necessary. This would ensure that all methods that used the local functions were receiving accurate inputs. This however, has already been proven once by the methods passing the test cases that I already have present on the testing document. \newline
+
+\section{Results of Testing Partner's Code}
+When testing the partner files with my test cases, I found that virtually all the test cases passed except the ones that specifically tested the class\verb|Scene()|. This class specifically resulted in 6 errors, in essence, it failed the whole set of test cases for \verb|Scene()|.\newline
+
+The specific error messages I received were: Can't instantiate abstract class Scene with abstract methods \verb|cm_x()|, \verb|cm_y()|, \verb|m_inert()|, \verb|mass()|\newline
+
+Upon further inspection, I found that my partner's code did not seem to have any erroneous logic. It was here that I was able to deduce that there were some issues with inheritance in my partner's class implementation. From here, I made a copy of my partner's code and made a few edits, I found would improve the code's performance on my test cases. All I needed to do was remove the line \verb|from Shape import Shape| as well as remove \verb|Shape| from the \verb|class Scene(Shape):| because the MIS did not write that class \verb|Scene()| inherits \verb|Shape()|. This allowed the code to run all the remaining test cases. In summary, initially my partner's code passed only 20 of the 26 cases I had written.\newline
+
+After my improvements, my partner's code passed all of my test cases. This means the code raises \verb|ValueError|s at the correct location and that it is built according to the specification to withstand a variety of test cases, including boundary cases.\newline
+
+I greatly admired the simplicity of the if-statements that were in my partner's code. They decided to implement the if-statements for the \verb|ValueError|s by using cases that contradicted the given statement. For example if my implementation read as: \verb|if(not(x >= 0))|, theirs read as: \verb|if(self.x < 0)| I followed the MIS quite closely in order to ensure that my implementation was as close to the assigned one as possible. However, if I were to do this assignment for a second time, I would likely redo all my if-statements in order to be more clear and concise just like theirs. This would involve less booleans and syntax in my implementation and improve the overall simplicity of my program.
+
+\section{Critique of Given Design Specification}
+
+There were a fairly large amount of advantages to this design specification. The below information details these advantages thoroughly. 
+\begin{enumerate}[1.)]
+\item The interface was minimal for the most part which meant that every access program was built to accomplish one functionality. This was made easy by the use of local functions that simplified the code written in the access methods. For example, \verb|__sum()|, \verb|__cm()|, \verb|__mom()| are all local functions that are useful when implementing the method \verb|__init__()|. Though, similar to Assignment 1, in the real world, this level of modularity, or better yet, minimality would probably be considered impractical due to the shortness of most methods. \newline  
+
+\item For the most part unnecessary access programs have been eliminated which means a majority of this module classifies as essential. For example, for the access programs \verb|cm_x()|, \verb|cm_y()|, \verb|mass()| and \verb|m_inert()| in the module \verb|TriangleT()|. None of these access programs can be completely replaced by one another. They all have their own purposes and are all unique. The same can be extrapolated for the most part to some of the other modules like \verb|CircleT()|.\newline
+
+\item A vast majority of this implementation was unambiguous. This means that it was easy to follow along with and that there was no ambiguity in the MIS. It was abundantly clear what parameters and outputs were necessary for each function and which situations would raise \verb|ValueError|s.\newline 
+\end{enumerate}
+
+\section{Answers}
+
+\begin{enumerate}[a)] 
+
+\item Unit testing is what we use to verify that individual units of code work as required. We indeed should test setters and getters as they are functions and as such are considered units of code work. Additionally testing setters and getters is part of code coverage, which means we have tested all requirements in each and every functions. While getters and setters may usually be simple one-line methods, it is important to note that they are often reused in multiple locations throughout a program. This means that if there are any issues with the setters and getters, it can be difficult to catch them and may lead the tester to thinking there are issues in other aspects of the program.\newline
+\item In order to test the setter and getter functions $F_y()$ and $F_y()$, it is only a matter of a simple assertion for a tuple value. This is already a part of my set of chosen test cases as evidentiated below:\newline
+\verb|def test_get_unbal_forces(self):|\newline 
+ \tab \verb|assert self.test_sc1.get_unbal_forces() == (Fx, Fy)|\newline
+  
+\verb|def test_set_unbal_forces(self):|\newline
+ \tab \verb|self.test_sc1.set_unbal_forces(FxNewSet, FyNewSet)|\newline
+ \tab \verb|assert self.test_sc1.get_unbal_forces() == (FxNewSet, FyNewSet)|\newline
+
+\item If automated tests were required for \verb|Plot.py|, it would be possible to make use matplotlib in conjunction with pytest to check if the outputted graph is correct. In order to write an image comparison test there is an additional import that must be done from matplotlib: \newline\newline
+    \verb|from matplotlib.testing.decorators import image_comparison|\newline\newline
+Image comparison takes in parameters of type list for the baseline image, type string for image extensions (.pdf, .png, etc...), type boolean for removing titles, and many more. The important part of this implementation would be that the graph would always fail the first pytest. However, after this the expected image would go to the correct subdirectory for the \verb|baseline_images| parameter. Then upon the second test, it would be possible to check if the image in our output matches that of the expected image.\newline
+\item 
+\verb|close_enough|($x_{calc}$, $y_{true}$):\newline
+\begin{itemize}
+    \item output: $out$ := norm(diff($x_{calc}$, $y_{true}$)) / norm($y_{true}$) $<$ $\epsilon$\newline 
+    \item exception: ($\neg (norm(y_{true}) > 0 \Rightarrow{}$ DivideByZeroError)\newline\newline
+\end{itemize}
+Local Functions:\newline
+norm: seq of  $\mathbb{R}$ $\xrightarrow{}$ $\mathbb{R}$\newline
+norm (seqA) $\equiv$ ($\exists$ s $\in$ seqA $|$ $\forall$ t $\in$ seqA : $|s| > |t|$) \newline\newline
+diff: seq of  $\mathbb{R}$ $\times$ seq of  $\mathbb{R}$ $\xrightarrow{}$ seq of $\mathbb{R}$\newline
+diff (seqA, seqB) $\equiv$ ($i$ : $\mathbb{N}$$|$ $i$ $\in$ [0..$|$seqA$|$ - 1]: $seqA_i$ - $seqB_i$ )
+
+
+\item There could be exceptions for y-coordinates that allow the shape to extend into the negative y-axis. Aside from that there is no necessity to limit the x-coordinates, because if treat the Cartesian plane as a terrain where y = 0 (the x-axis) as ground, then we can properly simulate shapes falling to the ground. However, if the Cartesian plane is looked at in a different manner, where the negative and positive x and y-values are simply points on a plane that can be affected by gravity.\newline
+\item The invariant is always satisfied in the given specification because any attempt to create an instance of a class that does not fit this invariant will raise a \verb|ValueError|. Additionally, aside from the initialization in TriangleT, there are no other instances where the state variables are changing (there are no setters). This implies that the state variables, should they pass initialization, must always satisfy the invariant.
+\item The list comprehension statement below, outlines what the output would be for a list that only loads the square roots of values that are odd between 5 and 19 (inclusive). Odd values, when divided by two, should have a remainder of 1. Hence the modulus value in the list comprehension statement expects one.\newline\newline
+\verb|g = [value ** (1/2) for value in range (5, 20) if (value % 2 == 1)]|\newline
+\item This particular implementation relies on the ordinal (ASCII) values for the characters as the determining factor in deciding whether a character is an uppercase letter or not. In terms of ASCII the characters between the ordinal values 65 and 90 (inclusive) are all uppercase letters. Therefore, in the implementation, an if-statement is used to check for them, then they are not added to the new string that is returned.\newline\newline
+\verb|def h(str):|\newline
+\tab\verb|newStr = ""|\newline
+\tab\verb|for i in range(len(str)):|\newline
+\tab\tab\verb|if (ord(str[i]) <= 90) and (ord(str[i]) >= 65):|\newline
+\tab\tab\tab\verb|newStr += "":|\newline
+\tab\tab\verb|else:|\newline
+\tab\tab\tab\verb|newStr += str[i]|\newline
+\tab\verb|return newStr|\newline
+\item Abstraction is the process of hiding information in order to focus on relevant and ignore what is irrelevant. An example of this could be driving a car. When driving, we're concerned with the ability to start, stop and accelerate, but these are all abstractions of the more intricate processes going on behind the scene with the vehicle. Contrastingly, generality is used to solve a more general problem than the one being focused on. It is important to note that abstraction is usually used to extract a general solution. This means that we use the process of hiding irrelevant information in order to make a solution that suits a more general purpose than the one we initially tried to solve. Logically, this makes sense because by using abstraction, we are focusing only on the key parts of a module's implementation, as such, taking this broad view of the implementation allows us to come to a general solution more easily.\newline
+\item Generally, when we speak of cohesion and coupling we look at designing modules with the properties of low coupling and high cohesion. However when looking at high coupling, there are advantages and disadvantages to both presented scenarios. High coupling in the second scenario means that any changes to the module used by many others, would impact the many other modules. This has the potential to be very detrimental to the code, as any little change to the main module could damage multiple dependent modules. As such, the first scenario is much more advantageous because any changes in the modules it depends on will be easy to mitigate in the main module due to the fact that changes only propagate to one module at a time.\newline
+\end{enumerate}
+
+Some of the information I used to answer questions and format my report is present at the following links or locations:\newline
+\begin{itemize}
+	\item \url{https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Tutorials/T03b%20-%20UnitTestingWithPytest/slides/Unit%20Testing.pdf}
+	\item \url{https://stackoverflow.com/questions/6197370/}
+    \item \url{https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Lectures/L06_SoftEngPrinciplesContd/SoftEngPrinciplesContd.pdf}
+	\item \url{https://www.softwaretestinghelp.com/what-is-abstraction-in-java/}
+	\item \url{https://matplotlib.org/3.3.3/devel/testing.html}
+	\item \url{https://matplotlib.org/3.3.3/api/testing_api.html#matplotlib.testing.decorators.image_comparison}
+	\item \url{https://www.programiz.com/python-programming/list-comprehension}
+	\item \url{https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Tutorials/T03a-MathReview/slides/TMathReview.pdf}
+	\item \url{https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Lectures/L14_Generic_MIS/Generic_MIS.pdf}
+	\item I received assistance from Farzan Yazdanjou in finding resources and formatting my answer to question d.
+\end{itemize}
+
+\newpage
+
+\lstset{language=Python, basicstyle=\tiny, breaklines=true, showspaces=false,
+  showstringspaces=false, breakatwhitespace=true}
+% \lstset{language=C,linewidth=.94\textwidth,xleftmargin=1.1cm}
+
+\def\thesection{\Alph{section}}
+
+\section{Code for Shape.py}
+
+\noindent \lstinputlisting{../src/Shape.py}
+
+\newpage
+
+\section{Code for CircleT.py}
+
+\noindent \lstinputlisting{../src/CircleT.py}
+
+\newpage
+
+\section{Code for TriangleT.py}
+
+\noindent \lstinputlisting{../src/TriangleT.py}
+
+\newpage
+
+\section{Code for BodyT.py}
+
+\noindent \lstinputlisting{../src/BodyT.py}
+
+\newpage
+
+\section{Code for Scene.py}
+
+\noindent \lstinputlisting{../src/Scene.py}
+
+\newpage
+
+\section{Code for Plot.py}
+
+\noindent \lstinputlisting{../src/Plot.py}
+
+\newpage
+
+\section{Code for test\_All.py}
+
+\noindent \lstinputlisting{../src/test_All.py}
+
+\newpage
+
+\section{Code for Partner's CircleT.py}
+
+\noindent \lstinputlisting{../partner/CircleT.py}
+
+\newpage
+
+\section{Code for Partner's TriangleT.py}
+
+\noindent \lstinputlisting{../partner/TriangleT.py}
+
+\newpage
+
+\section{Code for Partner's BodyT.py}
+
+\noindent \lstinputlisting{../partner/BodyT.py}
+
+\newpage
+
+\section{Code for Partner's Scene.py}
+
+\noindent \lstinputlisting{../partner/Scene.py}
+
+\newpage
+
+\end {document}
