@@ -6,8 +6,8 @@ The projects are not meant for academic use beyond the SFWRENG 2AA4 Winter 2021 
 To take a look at the specifications given to us check out the links below:
 The gitignores, makefiles and docignores do not belong to me.
 
-A1 - Specification: https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/A1/A1.pdf
+A1: https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/A1/A1.pdf
 
-A2 - Specification: https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/A2/A2.pdf
+A2: https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/A2/A2.pdf
 
-A3 - Specification: https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/A3/A3P1_Spec.pdf
+A3:  https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/A3/A3P1_Spec.pdf
