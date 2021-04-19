@@ -5,3 +5,4 @@ To take a look at the specifications given to us check out the links below:
 The gitignores, makefiles and docignores do not belong to me.
 
 A1 - Specification: https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/A1/A1.pdf
+A2 - Specification: https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/A2/A2.pdf
