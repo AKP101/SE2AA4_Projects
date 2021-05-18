@@ -12,4 +12,4 @@ A2: https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignment
 
 A3:  https://gitlab.cas.mcmaster.ca/smiths/se2aa4_cs2me3/-/blob/master/Assignments/A3/A3P1_Spec.pdf
 
-A4: This assignment was a bit different. We had the opportunity to make our own specifications. Timing constraints prevented me from formalizing the whole thing but it was still a very fun project. 
+A4: This assignment was a bit different. We had the opportunity to make our own specifications. Timing constraints prevented me from formalizing the entire specification but it was still a very fun project. 
